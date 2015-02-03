@@ -59,6 +59,10 @@ class LListDbl {
    */
   void clear();
 
+  void print();
+
+
+
  private:
   /** 
    * Returns a pointer to the item at index, pos

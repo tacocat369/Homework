@@ -7,20 +7,25 @@ int main() {
   LListDbl * list = new LListDbl();
 
   // Check if the list is initially empty.
+  cout << "Is the list empty?\n";
+  
   if (list->empty()) {
-    cout << "SUCCESS: List is empty initially." << endl;
+    cout << "Yes: List is empty in the beginning." << endl;
   } else {
-    cout << "FAIL: List is not empty initially when it should be." << endl;
+    cout << "No: List is not empty in the beginning." << endl;
   }
 
   // Insert an item at the head.
-  list->insert(0, 3.3);
+  list->insert(0, 7);
 
   // Check if the list is still empty.
   if (!list->empty()) {
-    cout << "SUCCESS: List is not empty after one insertion." << endl;
+    cout << "Yes: Number 7 was inserted." << endl;
+    Item * print_helper = new Item;
+    
+
   } else {
-    cout << "FAIL: List is empty after one insertion." << endl;
+    cout << "No: Failed to insert." << endl;
   }
 
   if (list->size() == 1) {
