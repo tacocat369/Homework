@@ -4,57 +4,43 @@
 using namespace std;
 
 int main() {
+
   LListDbl * list = new LListDbl();
 
-  // Check if the list is initially empty.
-  cout << endl <<"1. Let's check if it is empty in the first place.\n";
-  if (list->empty()) {
-    cout << "SUCCESS: List is empty initially." << endl << endl;
-  } else {
-    cout << "FAIL: List is not empty initially when it should be." << endl << endl;
-  }
+  cout << "Is it empty? (1 = yes, 0 = no)   " << list->empty() << endl << endl;
   
-  cout << endl <<"2. Let's insert '0' at 0th item and lets print and check size.\n";
-
-   // Insert an item at the head.
-  list->insert(0, 0);
-  list->print(); 
+  cout << "Lets try inserting value '0' at location '0'" << endl;
+  list->insert(0,0);
+  cout << "Is it empty? (1 = yes, 0 = no)   " << list->empty() << endl << endl;
   
-   // Check if the list is still empty.
-  if (!list->empty()) {
-    cout << "SUCCESS: List is not empty after one insertion. ";
-    cout << "Current size:" << list->size() << endl << endl;
-  } else {
-    cout << "FAIL: List is empty after one insertion." << endl;
-  }
- 
-  cout << "3. Inserting i in 'i'th place until 4 and print" << endl;
-  list->insert(1, 1);
-  list->insert(2, 2);
-  list->insert(3, 3);
-  list->insert(4, 4);
+  cout << "Lets check the size" << endl;
+  cout << "Current size is " << list->size() << endl << endl;
+
+  cout << "The value at 0 is : " << list->get(0) << endl;
   
-  list->print();
+  cout << "Lets insert in the beginning again and check if it pushes" << endl;
+  list->insert(0,1);
 
+  cout << "value at 0 is : " << list->get(0) << endl << "value at 1 is : " << list->get(1) << endl << endl;
 
+  cout << "Lets delete location 0 and check." << endl;
+  list->remove(0);
+  cout << "It should have value 1 in location 0 is it? value at loc 0 : " << list->get(0) << endl << endl;
 
+  cout << " works til here" << endl;
 
-  cout << endl << endl;
   
-  // Check if the value is correct.
-  if (list->get(0) == 0) {
-    cout << "SUCCESS: 0 is at the 0th index of the list." << endl;
-  } else {
-    cout << "FAIL: 3.3 is not at the 0th index of the list, " << list->get(0);
-    cout << " is instead." << endl;
-  }
 
-  list->print();
-  cout << endl;
+
+
+
+
 
 
 
 
   // Clean up memory.
   delete list;
+
+  return 0;
 }

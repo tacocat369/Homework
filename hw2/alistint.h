@@ -58,6 +58,12 @@ class AListInt
    */
   int const & get (int position) const;
   
+  /**
+   * add a value in the end
+   */
+  //void push_back(const T& new_val);
+
+
  private:
   /**
    * Should double the size of the list maintaining its contents
@@ -65,7 +71,9 @@ class AListInt
   void resize(); 
    
   /* Add necessary data members here */
-  
+  int* data;
+  unsigned int size_;
+  unsigned int capacity_;
   
 };
 

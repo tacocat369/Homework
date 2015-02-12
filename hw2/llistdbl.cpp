@@ -1,8 +1,7 @@
 #include "llistdbl.h"
-#include <cstdlib>
 #include <iostream>
+#include <cstdlib>
 using namespace std;
-
 LListDbl::LListDbl()
 {
   head_ = NULL;
@@ -30,83 +29,127 @@ int LListDbl::size() const
  */
 void LListDbl::insert(int loc, const double& val)
 {
-  if(loc < 0 || loc > size_){
-    cout << "Location out of range\n";
-  }
-
-  Item * n = new Item;
-  n->next = NULL;
-  n->val=val;
   
-  if(empty()){
-    head_ = n;
-    tail_ = n;
-    size_++;
+  if(loc < 0 || loc >size_){
+  	cout << "Failed to Insert. Invalid location." << endl;
   }
+  
 
-  else if(!empty()) {
-    if(loc == 0){
-      n->next = head_;
-      head_ = n;
-      size_++;
+  //creating pointer temp and dynamically allocating new Item
+  Item * temp, *l;
+  temp = new(struct Item);
+  temp->val = val;
+  temp->prev = NULL;
+  temp->next = NULL;
+  size_++;
+  
+  if(loc == 0) {  //inserting at the beginning
+  
+    // when empty
+    if(head_ == NULL) {
+    
+      head_ = temp;
+      tail_ = temp;
+    
     }
 
+    //when not empty
     else {
-      int counter = 0;
-      Item * addPtr = new Item;
-      Item * temp = new Item;
-      addPtr = head_;
-      while(counter!=loc) {
-        temp = addPtr;
-        addPtr = addPtr->next;
-        counter++; 
-      }
-      n->next = addPtr;
-      temp->next = n;
-      size_++;    
-    }
-  }
-}
+    
+    temp->next = head_;
+    head_->prev = temp;
+    head_ = temp;
 
+    }
+
+  }  
+  
+
+  // inserting somewhere else than location 0
+  else{
+    
+     
+    l = getNodeAt(loc);
+
+    // inserting in the middle
+    if(l->next != NULL) {
+        
+    temp->next = l->next;
+    temp->prev = l;
+    l->next->prev = temp;
+    l->next = temp;
+
+    }
+    
+    //inserting at the last
+    else {                  
+                            
+    l->next = temp;
+    temp->prev = l;
+    tail_ = temp;
+
+    }
+
+  }
+  
+}
 /**
  * Complete the following function
  */
 void LListDbl::remove(int loc)
 {
-  if(empty()){
-    cout << "List is already empty\n"; 
-  }
-  
-  Item * deletePtr = new Item;
-  deletePtr = head_;
+   
+    if( loc < 0 || loc > (size_-1) ) {
+  	  cout << "Invalid location. " << endl;
+     }
 
-  if(loc == 0) {
-    head_ = head_->next;
-    delete deletePtr;
-    size_--;
-  }
-
-  else {
     
-    Item * temp = new Item;
-    Item * curr = new Item;
-    int deletePtr_helper = 0;
-    temp = head_;
-    curr = head_;
 
-    while(deletePtr_helper != loc+1) {
-      temp = curr;
-      curr = curr->next;
-      deletePtr_helper++;
+    else {
+      cout << "!@#!@#$!@$@#$@!" << endl << endl;
+	  size_--;
+      Item *l;
+	  l = getNodeAt(loc);
 
-    }
-    curr=curr->next;
-    deletePtr = temp->next;
-    temp->next = curr;
-    delete deletePtr;
-    size_--;
+	    // Removing Item at location 0
+	    if( loc == 0 ) {
+	      
+	        if( size_ == 1 ) {
+	      
+	          delete head_;
 
-  }
+	         }
+
+	        else {
+
+	          head_ = head_->next;
+	          delete head_->prev;
+	          head_->prev = NULL;
+
+	         }
+	    
+
+	     }
+
+        // Deleting the last item
+	    else if( loc == (size_-1) ) {
+	    
+	          tail_ = l->prev;
+	          delete l;
+	          l->next = NULL;
+	         }
+        
+        // Deleting something in the middle  
+	    else {
+	          
+	      l->prev->next = l->next;
+	      l->next->prev = l->prev;
+
+	      delete l;
+
+	     }
+    
+     }
 
 }
 
@@ -137,34 +180,6 @@ void LListDbl::clear()
   }
   tail_ = NULL;
   size_ = 0;
-}
-
-void LListDbl::print() {
-
-  if(empty()){
-    cout << "list is empty\n";
-  }
-
-  else if(!empty()){
-    Item *curr = new Item;
-    curr = head_;
-    
-    if(curr->next==NULL){
-      cout << curr->val;
-    }
-    
-    else{
-      while(curr->next!=NULL){
-      cout << curr->val << " ";
-      curr = curr->next;
-      }
-      cout << curr->val;
-    }
-    cout << endl;
-  }
-  
-
-
 }
 
 
