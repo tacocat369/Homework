@@ -37,56 +37,76 @@ void LListDbl::insert(int loc, const double& val)
 
   //creating pointer temp and dynamically allocating new Item
   Item * temp, *l;
-  temp = new(struct Item);
+  temp = new Item;
   temp->val = val;
   temp->prev = NULL;
   temp->next = NULL;
-  size_++;
-  
-  if(loc == 0) {  //inserting at the beginning
-  
-    // when empty
-    if(head_ == NULL) {
-    
-      head_ = temp;
-      tail_ = temp;
-    
-    }
-
-    //when not empty
-    else {
-    
-    temp->next = head_;
-    head_->prev = temp;
-    head_ = temp;
-
-    }
-
-  }  
   
 
-  // inserting somewhere else than location 0
-  else{
+
+
+    if(loc == 0) {  //inserting at the beginning
+  
+    	// when empty
+   	 	if(size_ == 0) {
     
-     
-    l = getNodeAt(loc);
+      	    head_ = temp;
+      		tail_ = temp;
+      		size_++;
+    
+    	 }	
+          
+    	 //when not empty
+    	else {
+    
+    		temp->next = head_;
+ 	 		head_->prev = temp;
+ 	 		head_ = temp;
+ 			size_++;
+ 	     
+ 	     }
+
+     }  
+  
+
+  	// inserting somewhere else than location 0
+    else{
+      
 
     // inserting in the middle
-    if(l->next != NULL) {
-        
-    temp->next = l->next;
-    temp->prev = l;
+    if(loc != 0 && loc != size_) {
+  
+    l = getNodeAt(loc);                          ////////////////////
     l->next->prev = temp;
+    temp->next = l->next;
     l->next = temp;
-
+    temp->prev = l;
+    size_++;
     }
     
     //inserting at the last
     else {                  
-                            
-    l->next = temp;
-    temp->prev = l;
-    tail_ = temp;
+      // inserting at the back of the list
+      if(loc == size_) {
+        l = getNodeAt(loc-1);
+        
+        l->next =temp;
+        temp->prev = l;
+        tail_ = temp;
+        size_++;
+      }                       
+    
+      // inserting before last 
+      else {   
+       
+       temp->prev = l->prev;
+       l->next = temp;
+       temp->next = l;
+       l->prev = temp;
+       size_++;
+
+     }
+
 
     }
 
@@ -103,28 +123,32 @@ void LListDbl::remove(int loc)
   	  cout << "Invalid location. " << endl;
      }
 
-    
-
     else {
-      cout << "!@#!@#$!@$@#$@!" << endl << endl;
-	  size_--;
-      Item *l;
+
+	  Item *l;
 	  l = getNodeAt(loc);
 
 	    // Removing Item at location 0
 	    if( loc == 0 ) {
-	      
-	        if( size_ == 1 ) {
-	      
+            
+            // only one in the list, or size is 1	      
+	        if( head_->next == NULL ) {
+ 	                            
 	          delete head_;
-
+	          head_ = NULL;
+	          tail_ = NULL;  
+	          size_--;
+                            
 	         }
-
+            
+            // there is more than one item in the list
 	        else {
 
 	          head_ = head_->next;
-	          delete head_->prev;
 	          head_->prev = NULL;
+	          size_--;
+	          delete l;
+	          
 
 	         }
 	    
@@ -134,9 +158,11 @@ void LListDbl::remove(int loc)
         // Deleting the last item
 	    else if( loc == (size_-1) ) {
 	    
-	          tail_ = l->prev;
+	          tail_ = tail_->prev;
+	          tail_->next = NULL;
+	          size_--;
 	          delete l;
-	          l->next = NULL;
+	          
 	         }
         
         // Deleting something in the middle  
@@ -144,7 +170,7 @@ void LListDbl::remove(int loc)
 	          
 	      l->prev->next = l->next;
 	      l->next->prev = l->prev;
-
+          size_--;
 	      delete l;
 
 	     }
