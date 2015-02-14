@@ -11,14 +11,28 @@ LListInt::LListInt()
 
 
 LListInt::LListInt(const LListInt& other)
+
+
 {
-
-
+  
+  
 
 }
 
 LListInt& LListInt::operator=(const LListInt& other)
 {
+  Item *l;
+  l = other.head_;
+  while(l->next != NULL) {
+     
+    int x = l->val; 
+    this->push_back(x);
+    l = l->next;
+  }
+
+
+
+
 
 
 }
@@ -215,6 +229,32 @@ int const & LListInt::get(int loc) const
 
 void LListInt::push_back(const int& val)
 {
+
+  Item * temp; 
+  temp = new Item;
+  temp->val = val;
+  temp->prev = NULL;
+  temp->next = NULL;
+  
+
+  if(size_ != 0 ) {
+    Item * l;
+    l = tail_; //points to the last Item
+    l->next = temp;
+    temp->prev = l;
+    tail_ = temp;
+    size_++;
+  }
+
+  else {
+
+    head_ = temp;
+    tail_ = temp;
+
+
+
+  }
+
 
 
 
